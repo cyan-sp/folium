@@ -8,7 +8,7 @@ class Employee {
     String lastName
     String curp
     String position
-//    static hasOne = [address: Address]
+    static hasOne = [address: Address]
 
     static constraints = {
 

@@ -6,7 +6,8 @@ class Address {
     String state
     String city
     String zip
-    /*static belongsTo = [employee: Employee]*/
+    Employee employee
+    static belongsTo = [employee: Employee]
 
     static constraints = {
     }
