@@ -17,7 +17,7 @@ class Employee {
         id generator: 'assigned'
     }
 
-    String generateIdFromCurp(curp) {
+    static String generateIdFromCurp(curp) {
         if (!curp || curp.length() < 4) {
             throw new IllegalStateException("CURP must be at least 4 characters long")
         }
@@ -27,21 +27,11 @@ class Employee {
     def beforeInsert() {
         this.id = generateIdFromCurp(curp)
 
-//        if (curp && curp.length() >= 4) {
-//            this.id = curp.substring(0, 4).toUpperCase()
-//        } else {
-//            throw new IllegalStateException("CURP must be at least 2 characters long")
-//        }
-
     }
 
     def beforeUpdate() {
         this.id = generateIdFromCurp(curp)
-//        if (curp && curp.length() >= 4) {
-//            this.id = curp.substring(0, 4).toUpperCase()
-//        } else {
-//            throw new IllegalStateException("CURP must be at least 2 characters long")
-//        }
+
     }
 
     static marshaller = {

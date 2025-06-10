@@ -1,27 +1,39 @@
 package com.ord.folium
 import grails.converters.JSON
+//import com.ord.folium.EmployeeService
 
 class BootStrap {
+    def EmployeeService
 
     def init = { servletContext ->
         JSON.registerObjectMarshaller(com.ord.folium.Employee, com.ord.folium.Employee.marshaller)
 
-        if (Employee.count() == 0) {
 
-            def empCEO = new Employee(
-                    firstName: "cyan",
-                    lastName: "mv",
-                    curp: "cyanmv",
-                    position: "ceo"
+
+
+        if (Employee.count() == 0) {
+//            def str = employeeService.greetings()
+
+
+            employeeService.createEmployeeWithAddress(
+                    [firstName: "cyan", lastName: "mv", curp: "cyanmv", position: "ceo"],
+                    [state: "tlaxcala", city: "center", zip: "90770"]
             )
-            empCEO.id = empCEO.curp.substring(0, 4).toUpperCase()
-            new Address(
-                    state: "tlaxcala",
-                    city: "center",
-                    zip: "90770",
-                    employee: empCEO
-            ).save()
-            empCEO.save(flush: true, failOnError: true)
+
+//            def empCEO = new Employee(
+//                    firstName: "cyan",
+//                    lastName: "mv",
+//                    curp: "cyanmv",
+//                    position: "ceo"
+//            )
+//            empCEO.id = empCEO.curp.substring(0, 4).toUpperCase()
+//            new Address(
+//                    state: "tlaxcala",
+//                    city: "center",
+//                    zip: "90770",
+//                    employee: empCEO
+//            ).save()
+//            empCEO.save(flush: true, failOnError: true)
 //
 //            def empDev = new Employee(
 //                    firstName: "John",
