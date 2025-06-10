@@ -2,7 +2,7 @@ package com.ord.folium
 //import ResponseError
 
 class Employee {
-    String ida
+    String id
     String firstName
     String lastName
     String curp
@@ -16,21 +16,32 @@ class Employee {
     static mapping = {
         id generator: 'assigned'
     }
-    def beforeInsert() {
 
-        if (curp && curp.length() >= 4) {
-            this.id = curp.substring(0, 4).toUpperCase()
-        } else {
-            throw new IllegalStateException("CURP must be at least 2 characters long")
+    String generateIdFromCurp(curp) {
+        if (!curp || curp.length() < 4) {
+            throw new IllegalStateException("CURP must be at least 4 characters long")
         }
+        return curp.substring(0, 4).toUpperCase()
+    }
+
+    def beforeInsert() {
+        this.id = generateIdFromCurp(curp)
+
+//        if (curp && curp.length() >= 4) {
+//            this.id = curp.substring(0, 4).toUpperCase()
+//        } else {
+//            throw new IllegalStateException("CURP must be at least 2 characters long")
+//        }
+
     }
 
     def beforeUpdate() {
-        if (curp && curp.length() >= 4) {
-            this.id = curp.substring(0, 4).toUpperCase()
-        } else {
-            throw new IllegalStateException("CURP must be at least 2 characters long")
-        }
+        this.id = generateIdFromCurp(curp)
+//        if (curp && curp.length() >= 4) {
+//            this.id = curp.substring(0, 4).toUpperCase()
+//        } else {
+//            throw new IllegalStateException("CURP must be at least 2 characters long")
+//        }
     }
 
     static marshaller = {

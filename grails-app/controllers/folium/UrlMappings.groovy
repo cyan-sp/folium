@@ -7,6 +7,33 @@ class UrlMappings {
             constraints {
                 // apply constraints here
             }
+
+            group "/employee", {
+
+                get "/list"(controller: 'employee', action: 'listEmployees')
+//
+//                get "/paginator"(controller: 'employee', action: 'paginator')
+//
+//                post "/save" (controller: 'employee', action: 'register')
+//
+//                group "/$uuid",{
+//
+//                    get "/read" (controller: 'employee', action: 'listOne')
+//
+//                    group "/update",{
+//                        patch "/boss" (controller: 'employee', action: 'updateBoss')
+//
+//                        patch "/position" (controller: 'employee', action: 'updatePosition')
+//                    }
+//
+//                    delete "/delete"(controller: 'employee', action: 'deleteEmpleado')
+//
+//                }
+//                constraints {
+//                    uuid(matches: /[a-zA-Z0-9]{32}/)
+//                }
+
+            }
         }
 
         "/"(view:"/index")
