@@ -8,27 +8,31 @@ class EmployeeController {
 
     static responseFormats = ['json', 'xml']
 
-    def index() {
-        render params
-    }
+//    def index() {
+//        render Test()
+//    }
 
     def listEmployees() {
         render Employee.list() as JSON
+//         render 'mmmm'
+//        render TypeError.Test()
     }
 
     def findEmployeeByID () {
-        render params
-//        def employee = Employee.get(id)
-//        if (!employee) {
-//            render (status: 404, text: "Employee not found")
-//            return
-//        }
-//        render employee as JSON
+
+//        render params
+        def employee = Employee.get(params.id)
+        if (!employee) {
+            render (status: 404, text: "Employee not found")
+            return
+        }
+        render employee as JSON
     }
 
     def mytest () {
-        def employees = Employee.list()
-        render employees[0].getId()
+        render 'wtf'
+//        def employees = Employee.list()
+//        render employees[0].getId()
     }
 
 }
