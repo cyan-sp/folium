@@ -1,5 +1,6 @@
 package com.ord.folium
 
+import grails.converters.JSON
 import grails.gorm.transactions.Transactional
 
 @Transactional
@@ -28,6 +29,16 @@ class EmployeeService {
         address.save()
         employee.save(flush: true, failOnError: true)
 
+        return employee
+    }
+
+    def Employee findEmployeeByID (String id) {
+        def employee = Employee.get(id)
+//        if (!employee) {
+////            render (status: 404, text: "Employee not found")
+////            return employee
+//        }
+//        render employee as JSON
         return employee
     }
 }
