@@ -21,13 +21,6 @@ class BootStrap {
         }
 
         if (Employee.count() == 0) {
-//            def str = employeeService.greetings()
-
-//            employeeService.createEmployeeWithAddress(
-//                    [firstName: "cyan", lastName: "mv", curp: "cyanmv", position: "ceo"],
-//                    [state: "tlaxcala", city: "center", zip: "90770"]
-//            )
-
             def empCEO = employeeService.createEmployeeWithAddress(
                     [firstName: "cyan", lastName: "mv", curp: "cyanmv", position: "ceo"],
                     [state: "tlaxcala", city: "center", zip: "90770"]

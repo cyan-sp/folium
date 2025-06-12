@@ -1,5 +1,4 @@
 package com.ord.folium
-
 import grails.converters.JSON
 import grails.gorm.transactions.Transactional
 
@@ -7,7 +6,6 @@ import grails.gorm.transactions.Transactional
 class EmployeeService {
 
     def serviceMethod() {
-
     }
 
     Employee createEmployeeWithAddress(Map employeeData, Map addressData) {
@@ -17,8 +15,18 @@ class EmployeeService {
                 curp: employeeData.curp,
                 position: employeeData.position
         )
+
         employee.id = Employee.generateIdFromCurp(employeeData.curp)
 
+        // Handle manager relationship
+        if (employeeData.manager) {
+            employee.manager = employeeData.manager
+            // Add this employee to manager's subordinates
+            employeeData.manager.addToSubordinates(employee)
+            employeeData.manager.save(flush: true)
+        }
+
+        // Create and save address
         Address address = new Address(
                 state: addressData.state,
                 city: addressData.city,
@@ -26,19 +34,23 @@ class EmployeeService {
                 employee: employee
         )
 
-        address.save()
+        // Save employee first, then address
         employee.save(flush: true, failOnError: true)
+        address.save(flush: true, failOnError: true)
 
         return employee
     }
 
-    def Employee findEmployeeByID (String id) {
+    def Employee findEmployeeByID(String id) {
         def employee = Employee.get(id)
-//        if (!employee) {
-////            render (status: 404, text: "Employee not found")
-////            return employee
-//        }
-//        render employee as JSON
         return employee
+    }
+
+    // Add this method to get employees with their relationships loaded
+    def List<Employee> getAllEmployeesWithRelationships() {
+        return Employee.createCriteria().list {
+            fetchMode('subordinates', org.hibernate.FetchMode.JOIN)
+            fetchMode('address', org.hibernate.FetchMode.JOIN)
+        }
     }
 }

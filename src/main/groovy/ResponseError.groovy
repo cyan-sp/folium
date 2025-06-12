@@ -59,8 +59,8 @@ public class TypeError {
         return [data: [success:false, message: String.format("Se ha alcanzado el número máximo de registros permitidos para este recurso."), id:logId], status: 409];
     }
 
-//    static Test() {
-//        return 'test'
-//    }
+    static Test() {
+        return 'test'
+    }
 
 }
