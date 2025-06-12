@@ -1,5 +1,5 @@
+
 package com.ord.folium
-//import ResponseError
 
 class Employee {
     String id
@@ -9,12 +9,12 @@ class Employee {
     String position
 
     static hasOne = [address: Address]
-
     static hasMany = [subordinates: Employee]
     static belongsTo = [manager: Employee]
 
     static mapping = {
         id generator: 'assigned'
+        subordinates lazy: false // Ensure subordinates are eagerly loaded
     }
 
     static String generateIdFromCurp(curp) {
@@ -26,12 +26,10 @@ class Employee {
 
     def beforeInsert() {
         this.id = generateIdFromCurp(curp)
-
     }
 
     def beforeUpdate() {
         this.id = generateIdFromCurp(curp)
-
     }
 
     static marshaller = {
@@ -42,7 +40,15 @@ class Employee {
                 curp: it.curp,
                 position: it.position,
                 manager: it.manager ? it.manager.id : null,
-                subordinates: it.subordinates ? it.subordinates : null,
+                subordinates: it.subordinates?.collect { sub ->
+                    [
+                            id: sub.id,
+                            firstName: sub.firstName,
+                            lastName: sub.lastName,
+                            position: sub.position,
+                            subordinates: sub.subordinates
+                    ]
+                },
                 address: [
                         state: it.address?.state,
                         city: it.address?.city
