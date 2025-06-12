@@ -4,23 +4,24 @@
 package com.ord.folium
 
 import grails.util.Holders
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import java.text.SimpleDateFormat
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.Base64
 
-public class Log {
+public class Utils {
     private static grailsApplication = Holders.grailsApplication
     private final static String app = grailsApplication.config.appName
-    private static Logger log = LoggerFactory.getLogger(Log)
-    public static String TRACE = "TRACE" // Información muy detallada, útil para depuración profunda.
-    public static String DEBUG = "DEBUG" // Información de depuración, útil durante el desarrollo.
-    public static String INFO = "INFO" // Información general sobre el funcionamiento de la aplicación.
-    public static String WARN = "WARN" // Advertencias sobre situaciones inesperadas, pero que no impiden el funcionamiento.
-    public static String ERROR = "ERROR" // Errores que han ocurrido y que pueden afectar el funcionamiento.
 
-    public static logger(logLevel, logId, process, description, info = null, res = null) {
-        def logInfo = "${new Date().log()} | $logId | $app | $process | $description"
-        if (info) logInfo += " | $info"
-        if (res) logInfo += " | $res"
-        log."${logLevel.toLowerCase()}"(logInfo)
+    public static logger(logId, process, description, info = null, res = null) {
+        def log = "${new Date().log()} | $logId | $app | $process | $description"
+        if (info) log += " | $info"
+        if (res) log += " | $res"
+        println log
     }
+
+    public static Boolean validateAccessProject(uuidApp) {
+        return uuidApp == grailsApplication.config.id
+    }
+
 }

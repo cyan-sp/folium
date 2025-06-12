@@ -1,12 +1,24 @@
 package com.ord.folium
 import grails.converters.JSON
 //import com.ord.folium.EmployeeService
+import groovy.json.JsonBuilder;
 
 class BootStrap {
     def EmployeeService
 
     def init = { servletContext ->
         JSON.registerObjectMarshaller(com.ord.folium.Employee, com.ord.folium.Employee.marshaller)
+
+        Date.metaClass.log = {
+            delegate.format("yyyy-MM-dd HH:mm:ss")
+        }
+        Object.metaClass.toPrettyString = {
+            try {
+                return new JsonBuilder(delegate).toPrettyString().replaceAll('\n', '').replaceAll('    ', '')
+            }catch(e) {
+                return '{ERROR-AL-GENERAL-JSON}'
+            }
+        }
 
         if (Employee.count() == 0) {
 //            def str = employeeService.greetings()
