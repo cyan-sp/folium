@@ -5,12 +5,26 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class EmployeeService {
 
-//    def serviceMethod() {
-//
-//    }
+    def serviceMethod() {
 
-    def save(data) {
-        def employee = Employee.findByid(data.id)
+    }
+
+    def save(json) {
+        def employeeData = [
+                firstName: json.firstName,
+                lastName: json.lastName,
+                curp: json.curp,
+                position: json.position
+        ]
+
+        def addressData = [
+                state: json.address.state,
+                city: json.address.city,
+                zip: json.address.zip
+        ]
+
+        def employee = createEmployeeWithAddress(employeeData, addressData)
+        return employee
     }
 
 

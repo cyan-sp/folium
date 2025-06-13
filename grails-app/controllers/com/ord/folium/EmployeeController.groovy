@@ -4,8 +4,6 @@ import grails.rest.*
 import grails.converters.*
 import com.ord.folium.Utils
 
-
-
 class EmployeeController {
     def EmployeeService
 
@@ -17,10 +15,13 @@ class EmployeeController {
         if(!json) {
             return respond([error: 'what went wrong ?'])
         } else {
-            render json as JSON
+            return respond(EmployeeService.save(json))
+
+//            render EmployeeService.save(json)
+//            render json
         }
 //        try {
-//            def json = request.JSON
+//            def json = request.EmployeeService
 //            return json as JSON
 //
 //        } catch (e) {
