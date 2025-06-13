@@ -4,11 +4,29 @@ import grails.rest.*
 import grails.converters.*
 import com.ord.folium.Utils
 
+
+
 class EmployeeController {
     def EmployeeService
 
     static responseFormats = ['json', 'xml']
     def logId = UUID.randomUUID().toString().replaceAll('\\-', '')
+
+    def save() {
+        def json = request.JSON
+        if(!json) {
+            return respond([error: 'what went wrong ?'])
+        } else {
+            render json as JSON
+        }
+//        try {
+//            def json = request.JSON
+//            return json as JSON
+//
+//        } catch (e) {
+//
+//        }
+    }
 
     def listEmployees() {
         // TODO: JSON: Implement interal error
@@ -35,6 +53,5 @@ class EmployeeController {
         }
 
     }
-
 
 }

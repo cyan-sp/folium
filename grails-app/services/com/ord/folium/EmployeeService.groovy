@@ -5,8 +5,14 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class EmployeeService {
 
-    def serviceMethod() {
+//    def serviceMethod() {
+//
+//    }
+
+    def save(data) {
+        def employee = Employee.findByid(data.id)
     }
+
 
     Employee createEmployeeWithAddress(Map employeeData, Map addressData) {
         Employee employee = new Employee(
@@ -18,15 +24,15 @@ class EmployeeService {
 
         employee.id = Employee.generateIdFromCurp(employeeData.curp)
 
-        // Handle manager relationship
+
         if (employeeData.manager) {
             employee.manager = employeeData.manager
-            // Add this employee to manager's subordinates
+
             employeeData.manager.addToSubordinates(employee)
             employeeData.manager.save(flush: true)
         }
 
-        // Create and save address
+
         Address address = new Address(
                 state: addressData.state,
                 city: addressData.city,
@@ -34,7 +40,6 @@ class EmployeeService {
                 employee: employee
         )
 
-        // Save employee first, then address
         employee.save(flush: true, failOnError: true)
         address.save(flush: true, failOnError: true)
 
@@ -46,7 +51,7 @@ class EmployeeService {
         return employee
     }
 
-    // Add this method to get employees with their relationships loaded
+
     def List<Employee> getAllEmployeesWithRelationships() {
         return Employee.createCriteria().list {
             fetchMode('subordinates', org.hibernate.FetchMode.JOIN)
